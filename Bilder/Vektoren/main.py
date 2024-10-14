@@ -6,7 +6,7 @@ from manim import *
 # manim -pql main.py VekorenBild -r 1920,1080
 
 
-class VekorenBild(ThreeDScene):
+class VektorenBild(ThreeDScene):
     def construct(self):
 
         # Change background color to white
@@ -21,14 +21,19 @@ class VekorenBild(ThreeDScene):
             z_axis_config={"color": BLUE},
         )
 
-        self.play(Create(axes), run_time=1)
         vektor = Arrow3D([0, 0, 0], [1, 2, 3], color=BLACK)
         dot = Dot(ORIGIN, color="Black")
-        x_label = MathTex("y", color=BLACK).next_to(axes.x_axis.get_end(), RIGHT, buff=0.2)
-        y_label = MathTex("z", color=BLACK).next_to(axes.y_axis.get_end(), LEFT, buff=0.2)
+        x_label = MathTex("y", color=BLACK).next_to(
+            axes.x_axis.get_end(), RIGHT, buff=0.2
+        )
+        y_label = MathTex("z", color=BLACK).next_to(
+            axes.y_axis.get_end(), LEFT, buff=0.2
+        )
         z_label = MathTex("x", color=BLACK).next_to(axes.z_axis.get_end(), UP, buff=0.2)
         origin_text = Text("(0, 0, 0)", color=BLACK).next_to(dot, DOWN).scale(0.5)
-        tip_text = Text("(1, 2, 3)", color=BLACK).next_to(vektor.get_end(), RIGHT).scale(0.5)
+        tip_text = (
+            Text("(1, 2, 3)", color=BLACK).next_to(vektor.get_end(), RIGHT).scale(0.5)
+        )
 
         self.play(Create(vektor), Create(dot), run_time=1)
 
