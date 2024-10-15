@@ -5,71 +5,65 @@ class Graph(ThreeDScene):
     def construct(self):
         # Create the 3D axes with default orientation
         axes = ThreeDAxes(
-            x_length=10,
-            y_length=10,
-            z_length=10,
+            x_length=7,
+            y_length=7,
+            z_length=7,
             x_axis_config={"color": RED},
             y_axis_config={"color": GREEN},
             z_axis_config={"color": BLUE},
         )
-
-        axes.scale(0.5)
-
-        axes.shift(RIGHT * 2)
 
         self.play(Create(axes), run_time=2)
 
-        x_label = MathTex("x").next_to(axes.x_axis.get_end(), RIGHT, buff=0.2)
-        y_label = MathTex("y").next_to(axes.y_axis.get_end(), LEFT, buff=0.2)
-        z_label = MathTex("z").next_to(axes.z_axis.get_end(), UP, buff=0.2)
+        x_label = MathTex("y", color=WHITE).next_to(
+            axes.x_axis.get_end(), RIGHT, buff=0.2
+        )
+        y_label = MathTex("z", color=WHITE).next_to(
+            axes.y_axis.get_end(), LEFT, buff=0.2
+        )
+        z_label = MathTex("x", color=WHITE).next_to(axes.z_axis.get_end(), UP, buff=0.2)
 
-        self.play(Write(x_label), Write(y_label), Write(z_label))
+        self.add(axes)
+        self.add(x_label, y_label, z_label)
 
-        line_one = axes.plot_line_graph(
-            lambda t: np.array([-5, -7, 0]) + t * np.array([3, 0, 1]),
-            t_range=[-5, 5],
-            color=RED,
+        self.wait(1)
+
+        g1 = axes.plot_parametric_curve(
+            lambda t: np.array([1 + t, 2 + t, 1]),  # (1, 2, 1) + t * (1, 1, 0)
+            t_range=[-7, 7],
+            color=BLUE,
+        )
+        g2 = axes.plot_parametric_curve(
+            lambda s: np.array([3, 1 + s, s]),  # (3, 1, 0) + s * (0, 1, 1)
+            t_range=[-7, 7],
+            color=GREEN,
         )
 
-        self.play(Create(line_one), run_time=2)
+        group = VGroup()
+        group.add(g1, g2, axes, x_label, y_label, z_label)
 
-        axis_and_lines = VGroup(axes, line_one)
+        self.play(group.animate.rotate(angle=PI / 6, axis=UP))
+        self.play(group.animate.rotate(angle=-PI / 8, axis=LEFT))
+        self.wait(2)
 
-        self.play(axis_and_lines.animate.rotate(angle=PI / 6, axis=UP))
-        self.play(axis_and_lines.animate.rotate(angle=-PI / 12, axis=RIGHT))
+        g1_label_text = MathTex(
+            r"g:\vec{x} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}"
+            r" + t \begin{pmatrix} 1 \\ 1 \\ 0 \end{pmatrix}",
+            color=BLUE,
+            font_size=25,
+        )
+
+        g2_label_text = MathTex(
+            r"h:\vec{x} = \begin{pmatrix} 3 \\ 1 \\ 0 \end{pmatrix}"
+            r" + s \begin{pmatrix} 0 \\ 1 \\ 1 \end{pmatrix}",
+            color=GREEN,
+            font_size=25,
+        )
+
+        g1_label_text.shift(UP * 2, LEFT * 5)
+        g2_label_text.shift(LEFT * 5)
+        self.play(Write(g1_label_text), Write(g2_label_text), run_time=2)
 
         self.wait(2)
 
-        self.set_camera_orientation(phi=2 * PI / 5, theta=PI / 5)
-        axes = ThreeDAxes(
-            x_length=13,
-            y_length=13,
-            z_length=13,
-            x_axis_config={"color": RED},
-            y_axis_config={"color": GREEN},
-            z_axis_config={"color": BLUE},
-        )
-        axes.scale(0.5)
-        self.play(Create(axes))
-
-        x_label = MathTex("x").next_to(axes.x_axis.get_end(), RIGHT, buff=0.2)
-        y_label = MathTex("y").next_to(axes.y_axis.get_end(), LEFT, buff=0.2)
-        z_label = MathTex("z").next_to(axes.z_axis.get_end(), UP, buff=0.2)
-
-        self.play(Write(x_label), Write(y_label), Write(z_label))
-
-        self.wait(2)
-
-        line_one = Line3D(
-            start=np.array([-5, -7, 0]), end=np.array([3, 0, 1]), color=RED
-        )
-        line_one.scale(0.5)
-        self.play(Create(line_one))
-
-        line_two = Line3D(
-            start=np.array([12, 0, 1]), end=np.array([3, 2, 2]), color=GREEN
-        )
-        line_two.scale(0.5)
-        self.play(Create(line_two))
-
-        self.wait(2)
+        #TODO: Make the camera do a 360 degree rotation around the graph

@@ -1,7 +1,5 @@
 from manim import *
 
-# This will be a simple picture scnene, no animations
-
 # Terminal command for rendering this manim scene at 60fps and 1080p resolution
 # manim -pql main.py VekorenBild -r 1920,1080
 

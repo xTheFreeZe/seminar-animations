@@ -37,13 +37,9 @@ class KreuzBild(ThreeDScene):
             axes, vektor_eins, vektor_zwei, x_label, y_label, z_label
         )
 
-        self.play(Create(axes))
+        self.add(axes)
 
-        self.wait(3)
-
-        self.play(Create(vektor_eins), Create(vektor_zwei), Create(kreuzprodukt))
-
-        self.wait(3)
+        self.add(vektor_eins, vektor_zwei, kreuzprodukt)
 
         self.play(axis_and_lines.animate.rotate(angle=PI / 6, axis=UP))
         self.play(axis_and_lines.animate.rotate(angle=-PI / 12, axis=LEFT))
