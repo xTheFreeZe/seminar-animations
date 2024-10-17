@@ -46,6 +46,10 @@ class Graph(ThreeDScene):
         self.play(group.animate.rotate(angle=-PI / 8, axis=LEFT))
         self.wait(2)
 
+        #TODO: Add a 360° rotation to pronounce the lines even more :)
+
+        self.wait(2)
+
         g1_label_text = MathTex(
             r"g:\vec{x} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}"
             r" + t \begin{pmatrix} 1 \\ 1 \\ 0 \end{pmatrix}",
@@ -65,5 +69,3 @@ class Graph(ThreeDScene):
         self.play(Write(g1_label_text), Write(g2_label_text), run_time=2)
 
         self.wait(2)
-
-        #TODO: Make the camera do a 360 degree rotation around the graph
