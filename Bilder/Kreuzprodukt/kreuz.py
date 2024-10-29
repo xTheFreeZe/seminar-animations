@@ -3,8 +3,6 @@ from manim import *
 
 class KreuzBild(ThreeDScene):
     def construct(self):
-
-        # Change background color to white
         self.camera.background_color = WHITE
 
         axes = ThreeDAxes(
@@ -16,7 +14,6 @@ class KreuzBild(ThreeDScene):
             z_axis_config={"color": BLUE},
         )
 
-        # Die Koordinaten sind aus irgendeinem Grund gefickt
         # z = [-, x, -]
         # x = [-, -, x]
         # y = [x, -, -]

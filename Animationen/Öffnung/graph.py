@@ -13,8 +13,6 @@ class Graph(ThreeDScene):
             z_axis_config={"color": BLUE},
         )
 
-        self.play(Create(axes), run_time=2)
-
         x_label = MathTex("y", color=WHITE).next_to(
             axes.x_axis.get_end(), RIGHT, buff=0.2
         )
@@ -23,10 +21,7 @@ class Graph(ThreeDScene):
         )
         z_label = MathTex("x", color=WHITE).next_to(axes.z_axis.get_end(), UP, buff=0.2)
 
-        self.add(axes)
-        self.add(x_label, y_label, z_label)
-
-        self.wait(1)
+        self.add(axes, x_label, y_label, z_label)
 
         g1 = axes.plot_parametric_curve(
             lambda t: np.array([1 + t, 2 + t, 1]),  # (1, 2, 1) + t * (1, 1, 0)
@@ -38,6 +33,8 @@ class Graph(ThreeDScene):
             t_range=[-7, 7],
             color=GREEN,
         )
+
+        self.add(g1, g2)
 
         group = VGroup()
         group.add(g1, g2, axes, x_label, y_label, z_label)
