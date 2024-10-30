@@ -6,9 +6,9 @@ class KreuzBild(ThreeDScene):
         self.camera.background_color = WHITE
 
         axes = ThreeDAxes(
-            x_length=7,
-            y_length=7,
-            z_length=7,
+            x_length=6,
+            y_length=6,
+            z_length=6,
             x_axis_config={"color": BLUE},
             y_axis_config={"color": RED},
             z_axis_config={"color": GREEN},
