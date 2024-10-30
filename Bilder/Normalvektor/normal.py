@@ -19,13 +19,13 @@ class Normal(ThreeDScene):
         n_label_coords = np.array([-1.3, 0, 2.3])
         n_label = MathTex("\\vec{n}", color=BLACK).move_to(n_label_coords)
 
-        x_label = MathTex("y", color=BLACK).next_to(
+        x_label = MathTex("x", color=BLACK).next_to(
             axes.x_axis.get_end(), RIGHT, buff=0.2
         )
-        y_label = MathTex("z", color=BLACK).next_to(
+        y_label = MathTex("y", color=BLACK).next_to(
             axes.y_axis.get_end(), LEFT, buff=0.2
         )
-        z_label = MathTex("x", color=BLACK).next_to(axes.z_axis.get_end(), UP, buff=0.2)
+        z_label = MathTex("z", color=BLACK).next_to(axes.z_axis.get_end(), UP, buff=0.2)
 
         self.add(axes, line, normal_vector)
         self.add(x_label, y_label, z_label, n_label)
