@@ -30,9 +30,7 @@ class Aufpunkt(ThreeDScene):
             font_size=25,
         ).move_to(LEFT * 3 + UP * 2)
 
-        self.add(axes)
-        self.play(Write(equation))
-        self.play(Create(line))
+        self.add(axes, equation, line)
 
         group = VGroup()
         group.add(axes, equation, line)

@@ -1,6 +1,8 @@
 from manim import *
 
 
+# manim -ql -p Bilder/Beziehungen_Gerade/parallel.py Parallel -r 1920,1080
+
 class Parallel(ThreeDScene):
     def construct(self):
         self.camera.background_color = WHITE
