@@ -1,6 +1,5 @@
 from manim import *
 
-
 class Video(ThreeDScene):
     def construct(s):
         s.fps = 60
@@ -17,6 +16,8 @@ class Video(ThreeDScene):
         s.wait(0.5)
         s.play(Write(topic))
 
+        s.wait(3)
+
         s.play(topic.animate.to_corner(UP + LEFT).shift(DOWN * 0.5))
         s.wait()
 
@@ -30,7 +31,7 @@ class Video(ThreeDScene):
         )
         skew_definition_three = MathTex("\\circ \\text{ Nicht identisch}", font_size=30)
 
-        # Group the elements and arrange them vertically with a specific spacing
+        # This groups the elements together, placing them in a downward direction
         skew_definition = VGroup(
             skew_definition_header,
             skew_definition_one,
@@ -43,14 +44,15 @@ class Video(ThreeDScene):
             Create(framebox_one),
             LaggedStart(*[FadeIn(mob, shift=UP) for mob in skew_definition]),
         )
-        s.wait(5)
+        s.wait(7)
 
         s.play(
             ReplacementTransform(framebox_one, framebox_two),
             LaggedStart(*[FadeOut(mob, shift=DOWN) for mob in skew_definition]),
         )
-        s.wait()
+        s.wait(2)
 
+        # two lines that intersect each other
         axes_one = ThreeDAxes(
             x_length=10,
             y_length=10,
@@ -75,8 +77,9 @@ class Video(ThreeDScene):
         group_one = VGroup(axes_one, line_one_intersect, line_two_intersect)
         group_one.scale(0.2).move_to(LEFT * 4)
         s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_one]))
+        group_one_box = SurroundingRectangle(group_one, buff=0.1, color=WHITE)
 
-        s.wait(2)
+        s.wait(1)
 
         # two lines that are parallel to each other
         axes_two = ThreeDAxes(
@@ -103,8 +106,9 @@ class Video(ThreeDScene):
         group_two = VGroup(axes_two, line_one_parallel, line_two_parallel)
         group_two.scale(0.2).move_to(ORIGIN)
         s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_two]))
+        group_two_box = SurroundingRectangle(group_two, buff=0.1, color=WHITE)
 
-        s.wait(2)
+        s.wait(1)
 
         # two lines that are skew to each other
         axes_three = ThreeDAxes(
@@ -131,43 +135,21 @@ class Video(ThreeDScene):
         group_three = VGroup(axes_three, line_one_skew, line_two_skew)
         group_three.scale(0.2).move_to(RIGHT * 4)
         s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_three]))
+        group_three_box = SurroundingRectangle(group_three, buff=0.1, color=WHITE)
 
+        s.play(Create(group_one_box))
+        s.play(Rotating(group_one, axis=UP, radians=PI / 2, run_time=1.5))
         s.wait(2)
-
-        # Start rotating the group
-        s.play(Rotating(group_one, axis=UP, radians=2 * PI, run_time=3))
+        s.play(Rotating(group_one, axis=UP, radians=1.5 * PI, run_time=3))
+        s.wait(3)
+        s.play(ReplacementTransform(group_one_box, group_two_box))
+        s.play(Rotating(group_two, axis=UP, radians=PI / 2, run_time=1.5))
         s.wait(2)
-        s.play(Rotating(group_two, axis=UP, radians=2 * PI, run_time=3))
+        s.play(Rotating(group_two, axis=UP, radians=1.5 * PI, run_time=3))
+        s.wait(3)
+        s.play(ReplacementTransform(group_two_box, group_three_box))
+        s.play(Rotating(group_three, axis=UP, radians=PI / 2, run_time=1.5))
         s.wait(2)
-        s.play(Rotating(group_three, axis=UP, radians=2 * PI, run_time=3))
-        s.wait(5)
-
-
-class Test(ThreeDScene):
-    def construct(s):
-        axes_three = ThreeDAxes(
-            x_length=10,
-            y_length=10,
-            z_length=10,
-            x_axis_config={"color": WHITE},
-            y_axis_config={"color": WHITE},
-            z_axis_config={"color": WHITE},
-        )
-
-        line_one_skew = Line3D(
-            start=[-3, 0, -1],
-            end=[3, 4, 2],
-            color=BLUE,
-        )
-
-        line_two_skew = Line3D(
-            start=[2, -3, 3],
-            end=[-2, 2, -1],
-            color=RED,
-        )
-
-        group_three = VGroup(axes_three, line_one_skew, line_two_skew)
-        group_three.scale(0.2).move_to(RIGHT * 4)
-        s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_three]))
-
-        s.wait(2)
+        s.play(Rotating(group_three, axis=UP, radians=1.5 * PI, run_time=3))
+        s.play(FadeOut(group_three_box))
+        s.wait(3)
