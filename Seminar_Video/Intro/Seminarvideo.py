@@ -141,3 +141,33 @@ class Video(ThreeDScene):
         s.wait(2)
         s.play(Rotating(group_three, axis=UP, radians=2 * PI, run_time=3))
         s.wait(5)
+
+
+class Test(ThreeDScene):
+    def construct(s):
+        axes_three = ThreeDAxes(
+            x_length=10,
+            y_length=10,
+            z_length=10,
+            x_axis_config={"color": WHITE},
+            y_axis_config={"color": WHITE},
+            z_axis_config={"color": WHITE},
+        )
+
+        line_one_skew = Line3D(
+            start=[-3, 0, -1],
+            end=[3, 4, 2],
+            color=BLUE,
+        )
+
+        line_two_skew = Line3D(
+            start=[2, -3, 3],
+            end=[-2, 2, -1],
+            color=RED,
+        )
+
+        group_three = VGroup(axes_three, line_one_skew, line_two_skew)
+        group_three.scale(0.2).move_to(RIGHT * 4)
+        s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_three]))
+
+        s.wait(2)
