@@ -1,5 +1,6 @@
 from manim import *
 
+
 class Video(ThreeDScene):
     def construct(s):
         s.fps = 60
@@ -16,7 +17,7 @@ class Video(ThreeDScene):
         s.wait(0.5)
         s.play(Write(topic))
 
-        s.wait(3)
+        s.wait(5)
 
         s.play(topic.animate.to_corner(UP + LEFT).shift(DOWN * 0.5))
         s.wait()
@@ -44,7 +45,7 @@ class Video(ThreeDScene):
             Create(framebox_one),
             LaggedStart(*[FadeIn(mob, shift=UP) for mob in skew_definition]),
         )
-        s.wait(7)
+        s.wait(11)
 
         s.play(
             ReplacementTransform(framebox_one, framebox_two),
@@ -79,7 +80,7 @@ class Video(ThreeDScene):
         s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_one]))
         group_one_box = SurroundingRectangle(group_one, buff=0.1, color=WHITE)
 
-        s.wait(1)
+        s.wait(0.5)
 
         # two lines that are parallel to each other
         axes_two = ThreeDAxes(
@@ -108,7 +109,7 @@ class Video(ThreeDScene):
         s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_two]))
         group_two_box = SurroundingRectangle(group_two, buff=0.1, color=WHITE)
 
-        s.wait(1)
+        s.wait(0.5)
 
         # two lines that are skew to each other
         axes_three = ThreeDAxes(
@@ -138,18 +139,14 @@ class Video(ThreeDScene):
         group_three_box = SurroundingRectangle(group_three, buff=0.1, color=WHITE)
 
         s.play(Create(group_one_box))
-        s.play(Rotating(group_one, axis=UP, radians=PI / 2, run_time=1.5))
-        s.wait(2)
-        s.play(Rotating(group_one, axis=UP, radians=1.5 * PI, run_time=3))
+        s.play(Rotating(group_one, axis=UP, radians=2 * PI, run_time=6.5))
         s.wait(3)
         s.play(ReplacementTransform(group_one_box, group_two_box))
-        s.play(Rotating(group_two, axis=UP, radians=PI / 2, run_time=1.5))
-        s.wait(2)
-        s.play(Rotating(group_two, axis=UP, radians=1.5 * PI, run_time=3))
+        s.play(Rotating(group_two, axis=UP, radians=2 * PI, run_time=6.5))
         s.wait(3)
         s.play(ReplacementTransform(group_two_box, group_three_box))
-        s.play(Rotating(group_three, axis=UP, radians=PI / 2, run_time=1.5))
-        s.wait(2)
-        s.play(Rotating(group_three, axis=UP, radians=1.5 * PI, run_time=3))
+        s.play(Rotating(group_three, axis=UP, radians=2 * PI, run_time=6.5))
         s.play(FadeOut(group_three_box))
         s.wait(3)
+        s.play(FadeOut(framebox_two))
+        s.wait(2)
