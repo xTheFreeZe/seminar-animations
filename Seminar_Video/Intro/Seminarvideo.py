@@ -122,14 +122,14 @@ class Video(ThreeDScene):
         )
 
         line_one_skew = Line3D(
-            start=[-3, 0, -1],
-            end=[3, 4, 2],
+            start=[-5, -2, -3],
+            end=[5, 2, -1],
             color=BLUE,
         )
 
         line_two_skew = Line3D(
-            start=[2, -3, 3],
-            end=[-2, 2, -1],
+            start=[2, -4, 5],
+            end=[-2, 3, 8],
             color=RED,
         )
 
@@ -138,15 +138,68 @@ class Video(ThreeDScene):
         s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_three]))
         group_three_box = SurroundingRectangle(group_three, buff=0.1, color=WHITE)
 
+        s.play(FadeOut(group_two, group_three))
         s.play(Create(group_one_box))
+        s.play(group_one.animate.move_to(ORIGIN), group_one_box.animate.move_to(ORIGIN))
+        s.play(group_one.animate.scale(1.8), group_one_box.animate.scale(1.8))
         s.play(Rotating(group_one, axis=UP, radians=2 * PI, run_time=6.5))
         s.wait(3)
+        s.play(
+            group_one.animate.move_to(LEFT * 4), group_one_box.animate.move_to(LEFT * 4)
+        )
+        s.play(group_one.animate.scale(0.6), group_one_box.animate.scale(0.6))
+        s.play(FadeIn(group_two, group_three))
         s.play(ReplacementTransform(group_one_box, group_two_box))
+        s.play(FadeOut(group_one, group_three))
+        s.play(
+            group_two.animate.scale(1.8),
+            group_two_box.animate.scale(1.8),
+        )
         s.play(Rotating(group_two, axis=UP, radians=2 * PI, run_time=6.5))
         s.wait(3)
+        s.play(group_two.animate.scale(0.6), group_two_box.animate.scale(0.6))
+        s.play(FadeIn(group_three, group_one))
         s.play(ReplacementTransform(group_two_box, group_three_box))
+        s.play(FadeOut(group_one, group_two))
+        s.play(
+            group_three.animate.move_to(ORIGIN), group_three_box.animate.move_to(ORIGIN)
+        )
+        s.play(group_three.animate.scale(1.8), group_three_box.animate.scale(2))
         s.play(Rotating(group_three, axis=UP, radians=2 * PI, run_time=6.5))
+        s.play(
+            group_three.animate.move_to(RIGHT * 4),
+            group_three_box.animate.move_to(RIGHT * 4),
+        )
+        s.play(group_three.animate.scale(0.6), group_three_box.animate.scale(0.6))
         s.play(FadeOut(group_three_box))
+        s.play(FadeIn(group_one, group_two))
         s.wait(3)
         s.play(FadeOut(framebox_two))
         s.wait(2)
+
+
+class Test(ThreeDScene):
+    def construct(s):
+        axes_three = ThreeDAxes(
+            x_length=10,
+            y_length=10,
+            z_length=10,
+            x_axis_config={"color": WHITE},
+            y_axis_config={"color": WHITE},
+            z_axis_config={"color": WHITE},
+        )
+
+        line_one_skew = Line3D(
+            start=[-5, -2, -3],
+            end=[5, 2, -1],
+            color=BLUE,
+        )
+
+        line_two_skew = Line3D(
+            start=[2, -4, 5],
+            end=[-2, 3, 8],
+            color=RED,
+        )
+
+        s.add(axes_three, line_one_skew, line_two_skew)
+        s.wait(3)
