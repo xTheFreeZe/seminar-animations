@@ -53,6 +53,10 @@ class Ebene(ThreeDScene):
 
         dot = Dot3D(point, color=BLACK, radius=0.08)
 
+        x_label = MathTex("x", color=BLACK).scale(0.8)
+        y_label = MathTex("y", color=BLACK).scale(0.8)
+        z_label = MathTex("z", color=BLACK).scale(0.8)
+
         plane_label = MathTex("E", color=BLACK).scale(0.5)
         dot_label = MathTex("P", color=BLACK).scale(0.5)
         vec_label = MathTex("\\vec{v}", color=BLACK).scale(0.5)
@@ -68,6 +72,9 @@ class Ebene(ThreeDScene):
         s.add_fixed_in_frame_mobjects(vec_label)
         s.add_fixed_in_frame_mobjects(vec1_label)
         s.add_fixed_in_frame_mobjects(vec2_label)
+        s.add_fixed_in_frame_mobjects(x_label)
+        s.add_fixed_in_frame_mobjects(y_label)
+        s.add_fixed_in_frame_mobjects(z_label)
 
         group = VGroup(axes, plane_surface, vec_to_point, vec1, vec2, dot)
         group.scale(1.2)
@@ -76,4 +83,7 @@ class Ebene(ThreeDScene):
         dot_label.shift(UP * 1.5, RIGHT * 0.3)
         vec_label.shift(UP * 0.5, RIGHT * 0.3)
         vec1_label.shift(UP * 1, RIGHT * 1.5)
-        vec2_label.shift(UP * 0.8, LEFT * 1.3)                
+        vec2_label.shift(UP * 0.8, LEFT * 1.3)
+        x_label.shift(LEFT * 1.5, DOWN * 1.7)
+        y_label.shift(RIGHT * 3, DOWN * 0.5)
+        z_label.shift(UP * 3.1)
