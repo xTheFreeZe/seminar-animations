@@ -177,6 +177,14 @@ class Video(ThreeDScene):
         s.play(FadeOut(framebox_two))
         s.wait(2)
 
+        # Fade out everything except group_three and put it in the center
+        s.play(FadeOut(group_one, group_two, group_three_box))
+        s.play(FadeOut(topic, transform_title, title, framebox_two))
+        s.play(group_three.animate.move_to(ORIGIN))
+        s.play(group_three.animate.scale(1.8))
+
+        s.wait(5)
+
 
 class Test(ThreeDScene):
     def construct(s):
