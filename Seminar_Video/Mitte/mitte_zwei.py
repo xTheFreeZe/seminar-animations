@@ -100,4 +100,11 @@ class Mitte_zwei(Scene):
 
         self.play(ReplacementTransform(knowledge_text, lotgerade_group))
 
-        self.wait(1)
+        self.wait(2)
+
+        self.play(
+            FadeOut(skalarprodukt_group),
+            FadeOut(lotgerade_group),
+            FadeOut(chest_opened_empty_png),
+            FadeOut(tools_text),
+        )
