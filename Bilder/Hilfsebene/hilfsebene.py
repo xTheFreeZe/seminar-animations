@@ -30,7 +30,9 @@ class Hilfsebene(ThreeDScene):
         self.add_fixed_orientation_mobjects(x_label, y_label, z_label)
         self.add(axes)
         self.set_camera_orientation(phi=70 * DEGREES, theta=30 * DEGREES)
-
+        
+        line_1_start = [3, 0, -1]
+        line_1_end = [-3, 0, -1]
         line_1 = Line3D(start=[3, 0, -1], end=[-3, 0, -1], color=BLACK)
         line_2 = Line3D(start=[0, -3, 1], end=[0, 3, 1], color=BLACK)
 
@@ -42,10 +44,17 @@ class Hilfsebene(ThreeDScene):
             .shift(0.2 * RIGHT)
         )
 
+        def plane_func(u, v):
+            # Parametrize along line_1 for u
+            x = line_1_start[0] * (1 - u) * 2 + line_1_end[0] * u * 2
+            y = v  # Extends further to the sides
+            z = line_1_start[2]  # z-coordinate is constant for line_1
+            return axes.coords_to_point(x, y, z)
+
         plane = Surface(
-            lambda u, v: axes.coords_to_point(6 * (1 - u) - 5 * u, v, -1),
-            u_range=[0, 1],
-            v_range=[-5, 5],
+            plane_func,
+            u_range=[-0.221, 0.959], # Für line_1... Die Werte sind komisch aber so passt es
+            v_range=[-7, 7],
             checkerboard_colors=[BLUE_D, BLUE_E],
         )
         plane.set_opacity(0.3)
