@@ -234,6 +234,7 @@ class Mitte_drei(ThreeDScene):
         self.wait(0.5)
         self.play(ReplacementTransform(third_connection_vec, fourth_connection_vec))
         self.wait(5)
+        self.play(FadeOut(fourth_connection_vec))
 
         half_scalar_product_g = (
             MathTex(
@@ -267,13 +268,9 @@ class Mitte_drei(ThreeDScene):
 
         self.wait(2)
 
-        # Das System wurde bereits gelöst... Es liegt nicht im Fokus der Präsentation, das System zu lösen,
-        # weshalb wir gleich zu den Ergebnissen springen.
-
         lambda_solution = (
             MathTex(
-                "\\lambda \\approx",
-                "-0,93",
+                r"\lambda \approx -0,93",
                 font_size=25,
                 color=BLUE,
             )
@@ -283,8 +280,7 @@ class Mitte_drei(ThreeDScene):
 
         mu_solution = (
             MathTex(
-                "\\mu \\approx",
-                "-0,17",
+                r"\mu \approx -0,17",
                 font_size=25,
                 color=GREEN,
             )
@@ -293,17 +289,18 @@ class Mitte_drei(ThreeDScene):
         )
 
         self.play(
-            ReplacementTransform(half_scalar_product_g, lambda_solution), run_time=1
+            ReplacementTransform(half_scalar_product_g, lambda_solution)
         )
         self.add_fixed_in_frame_mobjects(lambda_solution)
         self.wait(2)
-        self.play(ReplacementTransform(half_scalar_product_h, mu_solution), run_time=1)
+        self.play(ReplacementTransform(half_scalar_product_h, mu_solution))
         self.add_fixed_in_frame_mobjects(mu_solution)
+        self.wait(2)
 
         self.play(
             FadeOut(connection_vec_short),
-            lambda_solution.animate.to_corner(UP + LEFT),
-            mu_solution.animate.to_corner(UP + LEFT).shift(DOWN),
+            lambda_solution.animate.to_corner(UP + LEFT).shift(DOWN),
+            mu_solution.animate.to_corner(UP + LEFT).shift(DOWN * 1.5),
         )
 
         point_g_line = (
@@ -317,7 +314,7 @@ class Mitte_drei(ThreeDScene):
                 font_size=25,
             )
             .to_corner(UP + LEFT)
-            .shift(DOWN * 1.5)
+            .shift(DOWN * 2.5)
         )
 
         point_h_line = (
@@ -333,7 +330,7 @@ class Mitte_drei(ThreeDScene):
                 font_size=25,
             )
             .to_corner(UP + LEFT)
-            .shift(DOWN * 2)
+            .shift(DOWN * 3)
         )
 
         self.add_fixed_in_frame_mobjects(point_g_line)
@@ -348,16 +345,18 @@ class Mitte_drei(ThreeDScene):
 
         complete_point_g_line = (
             MathTex(
-                "P_g = (1 - 0,93 \\mid 2 + 4 \\cdot (-0,93) \\mid 0)",
+                r"P_g = (1 - 0,93 \mid 2 + 4 \cdot (-0,93) \mid 0)",
                 color=BLUE,
                 font_size=25,
             )
             .to_corner(UP + LEFT)
-            .shift(DOWN * 1.5)
+            .shift(DOWN * 2.5)
+            .set_opacity(0)
         )
 
-        self.play(ReplacementTransform(point_g_line, complete_point_g_line))
         self.add_fixed_in_frame_mobjects(complete_point_g_line)
+
+        self.play(ReplacementTransform(point_g_line, complete_point_g_line), complete_point_g_line.animate.set_opacity(1))
 
         self.wait(2)
 
@@ -369,15 +368,17 @@ class Mitte_drei(ThreeDScene):
 
         complete_point_h_line = (
             MathTex(
-                "P_h = (-2 - 7 \\cdot (-0,17) \\mid -1 + 3 \\cdot (-0,17) \\mid 2 - (-0,17))",
+                r"P_h = (-2 - 7 \cdot (-0,17) \mid -1 + 3 \cdot (-0,17) \mid 2 + -0,17)",
                 color=GREEN,
                 font_size=25,
             )
             .to_corner(UP + LEFT)
-            .shift(DOWN * 2)
+            .shift(DOWN * 3)
+            .set_opacity(0)
         )
 
-        self.play(ReplacementTransform(point_h_line, complete_point_h_line))
         self.add_fixed_in_frame_mobjects(complete_point_h_line)
+
+        self.play(ReplacementTransform(point_h_line, complete_point_h_line), complete_point_h_line.animate.set_opacity(1))
 
         self.wait(2)
