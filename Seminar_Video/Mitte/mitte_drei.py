@@ -115,11 +115,15 @@ class Mitte_drei(ThreeDScene):
             .shift(DOWN * 3.7)
         )
 
-        connection_vec_short = MathTex(
-            r"\vec{ {P_gP_h} } = \begin{pmatrix} -3 -7 \mu - \lambda \\ -3 + 3 \mu - 4 \lambda \\ 2 - \mu \end{pmatrix}",
-            font_size=25,
-            color=WHITE,
-        ).to_corner(UP + LEFT).shift(DOWN * 1)
+        connection_vec_short = (
+            MathTex(
+                r"\vec{ {P_gP_h} } = \begin{pmatrix} -3 -7 \mu - \lambda \\ -3 + 3 \mu - 4 \lambda \\ 2 - \mu \end{pmatrix}",
+                font_size=25,
+                color=WHITE,
+            )
+            .to_corner(UP + LEFT)
+            .shift(DOWN * 1)
+        )
 
         self.add_fixed_in_frame_mobjects(connection_vec)
         self.play(
@@ -133,13 +137,10 @@ class Mitte_drei(ThreeDScene):
         self.wait(2)
 
         self.begin_ambient_camera_rotation(rate=-0.1, about="phi")
-        self.wait(2)
-        self.stop_ambient_camera_rotation(about="phi")
 
         start_points = line_g.get_all_points()
         end_points = line_h.get_all_points()
 
-        # Choose 10 points on both lines and connect them using an Arrow3D
         first_connection_vec = Arrow3D(
             start_points[0],
             end_points[0],
@@ -166,7 +167,13 @@ class Mitte_drei(ThreeDScene):
 
         fith_connection_vec = Arrow3D(
             start_points[500],
-            end_points[550],
+            end_points[300],
+            color=WHITE,
+        )
+
+        sixth_connection_vec = Arrow3D(
+            start_points[150],
+            end_points[100],
             color=WHITE,
         )
 
@@ -179,8 +186,8 @@ class Mitte_drei(ThreeDScene):
             FadeOut(line_g_eq),
         )
 
-        # Connection_vec ° RIchtingsvektor_g = 0
-        # Connection_vec ° Richtungsvektor_h = 0
+        self.stop_ambient_camera_rotation(about="phi")
+
         scalar_product_g = (
             MathTex(
                 r"\vec{ {P_gP_h} } \circ \begin{pmatrix} 1 \\ 4 \\ 0 \end{pmatrix} = 0",
@@ -203,15 +210,174 @@ class Mitte_drei(ThreeDScene):
 
         self.add_fixed_in_frame_mobjects(scalar_product_g)
         self.add_fixed_in_frame_mobjects(scalar_product_h)
-        self.add_fixed_in_frame_mobjects(connection_vec_short)
         self.play(
             connection_vec.animate.to_corner(UP + LEFT).shift(DOWN * 1),
             ReplacementTransform(connection_vec, connection_vec_short),
             Write(scalar_product_g),
             Write(scalar_product_h),
         )
+        self.add_fixed_in_frame_mobjects(connection_vec_short)
 
         self.play(ReplacementTransform(fith_connection_vec, second_connection_vec))
+        self.wait(0.5)
         self.play(ReplacementTransform(second_connection_vec, third_connection_vec))
+        self.wait(0.5)
         self.play(ReplacementTransform(third_connection_vec, fourth_connection_vec))
+        self.wait(0.5)
         self.play(ReplacementTransform(fourth_connection_vec, fith_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(fith_connection_vec, sixth_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(sixth_connection_vec, second_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(second_connection_vec, third_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(third_connection_vec, fourth_connection_vec))
+        self.wait(5)
+
+        half_scalar_product_g = (
+            MathTex(
+                r"-15 + 5 \mu - 17 \lambda = 0",
+                font_size=25,
+                color=BLUE,
+            )
+            .to_corner(UP + LEFT)
+            .shift(DOWN * 2.5)
+        )
+
+        half_scalar_product_h = (
+            MathTex(
+                r"10 + 59 \mu - 5 \lambda = 0",
+                font_size=25,
+                color=GREEN,
+            )
+            .to_corner(UP + LEFT)
+            .shift(DOWN * 3.3)
+        )
+
+        self.play(ReplacementTransform(scalar_product_g, half_scalar_product_g))
+        self.add_fixed_in_frame_mobjects(half_scalar_product_g)
+
+        self.wait(2)
+
+        self.play(
+            ReplacementTransform(scalar_product_h, half_scalar_product_h),
+        )
+        self.add_fixed_in_frame_mobjects(half_scalar_product_h)
+
+        self.wait(2)
+
+        # Das System wurde bereits gelöst... Es liegt nicht im Fokus der Präsentation, das System zu lösen,
+        # weshalb wir gleich zu den Ergebnissen springen.
+
+        lambda_solution = (
+            MathTex(
+                "\\lambda \\approx",
+                "-0,93",
+                font_size=25,
+                color=BLUE,
+            )
+            .to_corner(UP + LEFT)
+            .shift(DOWN * 2.5)
+        )
+
+        mu_solution = (
+            MathTex(
+                "\\mu \\approx",
+                "-0,17",
+                font_size=25,
+                color=GREEN,
+            )
+            .to_corner(UP + LEFT)
+            .shift(DOWN * 3.3)
+        )
+
+        self.play(
+            ReplacementTransform(half_scalar_product_g, lambda_solution), run_time=1
+        )
+        self.add_fixed_in_frame_mobjects(lambda_solution)
+        self.wait(2)
+        self.play(ReplacementTransform(half_scalar_product_h, mu_solution), run_time=1)
+        self.add_fixed_in_frame_mobjects(mu_solution)
+
+        self.play(
+            FadeOut(connection_vec_short),
+            lambda_solution.animate.to_corner(UP + LEFT),
+            mu_solution.animate.to_corner(UP + LEFT).shift(DOWN),
+        )
+
+        point_g_line = (
+            MathTex(
+                "P_g = (1 +",
+                "\\lambda",
+                "\\mid 2 + 4",
+                "\\lambda",
+                "\\mid 0)",
+                color=BLUE,
+                font_size=25,
+            )
+            .to_corner(UP + LEFT)
+            .shift(DOWN * 1.5)
+        )
+
+        point_h_line = (
+            MathTex(
+                "P_h = (-2 - 7",
+                "\\mu",
+                "\\mid -1 + 3",
+                "\\mu",
+                "\\mid 2 -",
+                "\\mu",
+                ")",
+                color=GREEN,
+                font_size=25,
+            )
+            .to_corner(UP + LEFT)
+            .shift(DOWN * 2)
+        )
+
+        self.add_fixed_in_frame_mobjects(point_g_line)
+        self.play(Write(point_g_line))
+        self.add_fixed_in_frame_mobjects(point_h_line)
+        self.play(Write(point_h_line))
+
+        self.play(
+            point_g_line[1].animate.set_color(YELLOW),
+            point_g_line[3].animate.set_color(YELLOW),
+        )
+
+        complete_point_g_line = (
+            MathTex(
+                "P_g = (1 - 0,93 \\mid 2 + 4 \\cdot (-0,93) \\mid 0)",
+                color=BLUE,
+                font_size=25,
+            )
+            .to_corner(UP + LEFT)
+            .shift(DOWN * 1.5)
+        )
+
+        self.play(ReplacementTransform(point_g_line, complete_point_g_line))
+        self.add_fixed_in_frame_mobjects(complete_point_g_line)
+
+        self.wait(2)
+
+        self.play(
+            point_h_line[1].animate.set_color(YELLOW),
+            point_h_line[3].animate.set_color(YELLOW),
+            point_h_line[5].animate.set_color(YELLOW),
+        )
+
+        complete_point_h_line = (
+            MathTex(
+                "P_h = (-2 - 7 \\cdot (-0,17) \\mid -1 + 3 \\cdot (-0,17) \\mid 2 - (-0,17))",
+                color=GREEN,
+                font_size=25,
+            )
+            .to_corner(UP + LEFT)
+            .shift(DOWN * 2)
+        )
+
+        self.play(ReplacementTransform(point_h_line, complete_point_h_line))
+        self.add_fixed_in_frame_mobjects(complete_point_h_line)
+
+        self.wait(2)

@@ -184,30 +184,3 @@ class Video(ThreeDScene):
         s.play(group_three.animate.scale(1.7))
 
         s.wait(2)
-
-
-class Test(ThreeDScene):
-    def construct(s):
-        axes_three = ThreeDAxes(
-            x_length=10,
-            y_length=10,
-            z_length=10,
-            x_axis_config={"color": WHITE},
-            y_axis_config={"color": WHITE},
-            z_axis_config={"color": WHITE},
-        )
-
-        line_one_skew = Line3D(
-            start=[-5, -2, -3],
-            end=[5, 2, -1],
-            color=BLUE,
-        )
-
-        line_two_skew = Line3D(
-            start=[2, -4, 5],
-            end=[-2, 3, 8],
-            color=RED,
-        )
-
-        s.add(axes_three, line_one_skew, line_two_skew)
-        s.wait(3)
