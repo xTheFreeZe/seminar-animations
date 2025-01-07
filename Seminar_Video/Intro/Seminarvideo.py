@@ -4,7 +4,7 @@ from manim import *
 class Video(ThreeDScene):
     def construct(s):
         s.fps = 60
-        title = Tex("Seminarvideo Marwin Eder ft13a", font_size=30)
+        title = Tex("Seminarvideo Marwin", font_size=30)
         topic = Tex("Abstand zweier", " windschiefer", " Geraden", font_size=25)
 
         s.play(Write(title))

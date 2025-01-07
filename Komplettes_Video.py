@@ -1,7 +1,405 @@
 from manim import *
 
+class Video(ThreeDScene):
+    def construct(s):
+        s.fps = 60
+        title = Tex("Seminarvideo Marwin", font_size=30)
+        topic = Tex("Abstand zweier", " windschiefer", " Geraden", font_size=25)
 
-class Mitte_drei(ThreeDScene):
+        s.play(Write(title))
+        s.wait()
+
+        transform_title = Tex("Thema:", font_size=25)
+        transform_title.to_corner(UP + LEFT)
+
+        s.play(Transform(title, transform_title))
+        s.wait(0.5)
+        s.play(Write(topic))
+
+        s.wait(5)
+
+        s.play(topic.animate.to_corner(UP + LEFT).shift(DOWN * 0.5))
+        s.wait()
+
+        framebox_one = SurroundingRectangle(topic[1], buff=0.05)
+        framebox_two = SurroundingRectangle(topic[2], buff=0.05)
+
+        skew_definition_header = Tex("Voraussetzungen windschief", font_size=30)
+        skew_definition_one = MathTex("\\circ \\text{ Nicht parallel}", font_size=30)
+        skew_definition_two = MathTex(
+            "\\circ \\text{ Keinen Schnittpunkt}", font_size=30
+        )
+        skew_definition_three = MathTex("\\circ \\text{ Nicht identisch}", font_size=30)
+
+        # This groups the elements together, placing them in a downward direction
+        skew_definition = VGroup(
+            skew_definition_header,
+            skew_definition_one,
+            skew_definition_two,
+            skew_definition_three,
+        )
+        skew_definition.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+
+        s.play(
+            Create(framebox_one),
+            LaggedStart(*[FadeIn(mob, shift=UP) for mob in skew_definition]),
+        )
+        s.wait(11)
+
+        s.play(
+            ReplacementTransform(framebox_one, framebox_two),
+            LaggedStart(*[FadeOut(mob, shift=DOWN) for mob in skew_definition]),
+        )
+        s.wait(2)
+
+        # two lines that intersect each other
+        axes_one = ThreeDAxes(
+            x_length=10,
+            y_length=10,
+            z_length=10,
+            x_axis_config={"color": WHITE},
+            y_axis_config={"color": WHITE},
+            z_axis_config={"color": WHITE},
+        )
+
+        line_one_intersect = Line3D(
+            start=[-3, -3, 0],
+            end=[3, 3, 0],
+            color=BLUE,
+        )
+
+        line_two_intersect = Line3D(
+            start=[-3, 3, 0],
+            end=[3, -3, 0],
+            color=RED,
+        )
+
+        group_one = VGroup(axes_one, line_one_intersect, line_two_intersect)
+        group_one.scale(0.2).move_to(LEFT * 4)
+        s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_one]))
+        group_one_box = SurroundingRectangle(group_one, buff=0.1, color=WHITE)
+
+        s.wait(0.5)
+
+        # two lines that are parallel to each other
+        axes_two = ThreeDAxes(
+            x_length=10,
+            y_length=10,
+            z_length=10,
+            x_axis_config={"color": WHITE},
+            y_axis_config={"color": WHITE},
+            z_axis_config={"color": WHITE},
+        )
+
+        line_one_parallel = Line3D(
+            start=[-3, -3, 0],
+            end=[3, 3, 0],
+            color=BLUE,
+        )
+
+        line_two_parallel = Line3D(
+            start=[-3, -3, 1],
+            end=[3, 3, 1],
+            color=RED,
+        )
+
+        group_two = VGroup(axes_two, line_one_parallel, line_two_parallel)
+        group_two.scale(0.2).move_to(ORIGIN)
+        s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_two]))
+        group_two_box = SurroundingRectangle(group_two, buff=0.1, color=WHITE)
+
+        s.wait(0.5)
+
+        # two lines that are skew to each other
+        axes_three = ThreeDAxes(
+            x_length=10,
+            y_length=10,
+            z_length=10,
+            x_axis_config={"color": WHITE},
+            y_axis_config={"color": WHITE},
+            z_axis_config={"color": WHITE},
+        )
+
+        line_one_skew = Line3D(
+            start=[-5, -2, -3],
+            end=[5, 2, -1],
+            color=BLUE,
+        )
+
+        line_two_skew = Line3D(
+            start=[2, -4, 5],
+            end=[-2, 3, 8],
+            color=RED,
+        )
+
+        group_three = VGroup(axes_three, line_one_skew, line_two_skew)
+        group_three.scale(0.2).move_to(RIGHT * 4)
+        s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_three]))
+        group_three_box = SurroundingRectangle(group_three, buff=0.1, color=WHITE)
+
+        s.play(FadeOut(group_two, group_three))
+        s.play(Create(group_one_box))
+        s.play(group_one.animate.move_to(ORIGIN), group_one_box.animate.move_to(ORIGIN))
+        s.play(group_one.animate.scale(1.8), group_one_box.animate.scale(1.8))
+        s.play(Rotating(group_one, axis=UP, radians=2 * PI, run_time=6.5))
+        s.wait(3)
+        s.play(
+            group_one.animate.move_to(LEFT * 4), group_one_box.animate.move_to(LEFT * 4)
+        )
+        s.play(group_one.animate.scale(0.6), group_one_box.animate.scale(0.6))
+        s.play(FadeIn(group_two, group_three))
+        s.play(ReplacementTransform(group_one_box, group_two_box))
+        s.play(FadeOut(group_one, group_three))
+        s.play(
+            group_two.animate.scale(1.8),
+            group_two_box.animate.scale(1.8),
+        )
+        s.play(Rotating(group_two, axis=UP, radians=2 * PI, run_time=6.5))
+        s.wait(3)
+        s.play(group_two.animate.scale(0.6), group_two_box.animate.scale(0.6))
+        s.play(FadeIn(group_three, group_one))
+        s.play(ReplacementTransform(group_two_box, group_three_box))
+        s.play(FadeOut(group_one, group_two))
+        s.play(
+            group_three.animate.move_to(ORIGIN), group_three_box.animate.move_to(ORIGIN)
+        )
+        s.play(group_three.animate.scale(1.8), group_three_box.animate.scale(2))
+        s.play(Rotating(group_three, axis=UP, radians=2 * PI, run_time=6.5))
+        s.play(
+            group_three.animate.move_to(RIGHT * 4),
+            group_three_box.animate.move_to(RIGHT * 4),
+        )
+        s.play(group_three.animate.scale(0.6), group_three_box.animate.scale(0.6))
+        s.play(FadeOut(group_three_box))
+        s.play(FadeIn(group_one, group_two))
+        s.wait(3)
+        s.play(FadeOut(framebox_two))
+        s.wait(2)
+
+        # Fade out everything except group_three and put it in the center
+        s.play(FadeOut(group_one, group_two))
+        s.play(FadeOut(topic, transform_title, title))
+        s.play(group_three.animate.move_to(ORIGIN))
+        s.play(group_three.animate.scale(1.7))
+
+        s.wait(2)
+
+class Mitte_eins(ThreeDScene):
+    def construct(self):
+        self.fps = 60
+
+        axes = ThreeDAxes(
+            x_length=10,
+            y_length=10,
+            z_length=10,
+            x_axis_config={"color": WHITE},
+            y_axis_config={"color": WHITE},
+            z_axis_config={"color": WHITE},
+        )
+
+        silent_axes = ThreeDAxes(
+            x_length=15,
+            y_length=15,
+            z_length=10,
+        )
+
+        line_one_skew = Line3D(
+            start=[-5, -2, -3],
+            end=[5, 2, -1],
+            color=BLUE,
+        )
+
+        line_two_skew = Line3D(
+            start=[2, -4, 5],
+            end=[-2, 3, 8],
+            color=RED,
+        )
+
+        group = VGroup(axes, line_one_skew, line_two_skew)
+        group.scale(0.2)
+        group.scale(1.8)
+        group.move_to(ORIGIN)
+        self.add(group)
+        self.wait(1)
+
+        text = Tex("Verbindungsvektor", font_size=35).move_to(ORIGIN)
+        text_2 = Tex("Methode des Verbindungsvektores", font_size=25).to_corner(UL)
+
+        wave_to_right = ParametricFunction(
+            lambda t: np.array(
+                [
+                    t,
+                    0.5 * np.sin(t * 0.5 * PI),
+                    0,
+                ]
+            ),
+            t_range=[2, 10],
+            color=BLUE,
+        )
+
+        wave_to_left = ParametricFunction(
+            lambda t: np.array(
+                [
+                    -t,
+                    0.5 * np.sin(t * 0.5 * PI),
+                    0,
+                ]
+            ),
+            t_range=[2, 10],
+            color=BLUE,
+        )
+
+        self.play(
+            ReplacementTransform(group, text, run_time=1),
+            Create(wave_to_right),
+            Create(wave_to_left),
+        )
+
+        self.play(
+            wave_to_right.animate.set_opacity(0),
+            wave_to_left.animate.set_opacity(0),
+            run_time=0.5,
+        )
+
+        self.play(ReplacementTransform(text, text_2, run_time=1))
+
+        header = Tex("Warum der Verbindungsvektor", font_size=30)
+        body_1 = MathTex("\\circ \\text{ Direkt und anschaulich}", font_size=30)
+        body_2 = MathTex(
+            "\\circ \\text{ Verwendung grundlegender Vektorrechnung}", font_size=30
+        )
+        body_3 = MathTex("\\circ \\text{ Effizient}", font_size=30)
+
+        # This groups the elements together, placing them in a downward direction
+        wow = VGroup(
+            header,
+            body_1,
+            body_2,
+            body_3,
+        )
+        wow.move_to(ORIGIN)
+        wow.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+
+        self.play(
+            LaggedStart(*[FadeIn(mob, shift=UP) for mob in wow]),
+        )
+        self.wait(5)
+
+        self.play(
+            FadeOut(wow),
+            FadeOut(text_2),
+        )
+
+        self.wait(1)
+
+class Mitte_zwei(Scene):
+    def construct(self):
+        self.fps = 60
+
+        tools_text = Tex("Werkzeuge", font_size=50).move_to(ORIGIN)
+        self.play(Write(tools_text))
+
+        self.wait(1)
+
+        self.play(
+            tools_text.animate.scale(0.8).shift(UP * 3),
+        )
+
+        chest_closed_png = ImageMobject("Assets\\resized-chest_1-removebg-preview.png")
+        chest_opened_empty_png = ImageMobject("Assets\\resized_chest_2.png")
+
+        chest_closed_png.move_to(ORIGIN)
+        chest_opened_empty_png.move_to(ORIGIN)
+
+        self.play(FadeIn(chest_closed_png))
+
+        self.play(ReplacementTransform(chest_closed_png, chest_opened_empty_png))
+
+        skalarprodukt_text = Tex("Skalarprodukt", font_size=25).move_to(ORIGIN)
+        self.play(
+            Write(skalarprodukt_text),
+            skalarprodukt_text.animate.move_to(LEFT * 4 + UP * 3),
+        )
+
+        self.wait(1)
+
+        skalarprodukt_group = VGroup()
+
+        start_vec = LEFT * 4 + UP * 3
+        skalarprodukt_vektor_1 = Arrow(
+            start=start_vec, end=start_vec + [-1, -3, 0], color=RED
+        )
+        skalarprodukt_vektor_2 = Arrow(
+            start=start_vec, end=start_vec + [-3, 1, 0], color=BLUE
+        )
+
+        start_dot = Dot(point=start_vec, color=WHITE, radius=0.25)
+
+        angle = Angle(
+            Line(
+                start=skalarprodukt_vektor_1.get_start(),
+                end=skalarprodukt_vektor_1.get_end(),
+            ),
+            Line(
+                start=skalarprodukt_vektor_2.get_start(),
+                end=skalarprodukt_vektor_2.get_end(),
+            ),
+            radius=1,
+            other_angle=True,
+        )
+
+        angle_dot = Dot(point=angle.get_center(), color=WHITE)
+
+        skalarprodukt_group = VGroup(
+            skalarprodukt_vektor_1, skalarprodukt_vektor_2, angle, start_dot, angle_dot
+        )
+        skalarprodukt_group.scale(0.5)
+
+        self.play(ReplacementTransform(skalarprodukt_text, skalarprodukt_group))
+
+        self.wait(1)
+
+        knowledge_text = Tex("Lotgerade", font_size=25).move_to(ORIGIN)
+        self.play(
+            Write(knowledge_text),
+            knowledge_text.animate.move_to(RIGHT * 4 + DOWN * 2),
+        )
+
+        lotgerade_group = VGroup()
+
+        lotgerade_eins = Line(start=[0, 0, 0], end=[0, -2, 0], color=RED)
+        lotgerade_zwei = Line(start=[-2, -2, 0], end=[2, -2, 0], color=BLUE)
+
+        angle = Angle(
+            Line(
+                start=lotgerade_eins.get_end(),
+                end=lotgerade_eins.get_start(),
+            ),
+            Line(
+                start=lotgerade_zwei.get_end(),
+                end=lotgerade_zwei.get_start(),
+            ),
+            radius=1,
+            other_angle=False,
+        )
+
+        angle_dot_skalar = Dot(point=angle.get_center(), color=WHITE)
+
+        lotgerade_group.add(lotgerade_eins, lotgerade_zwei, angle, angle_dot_skalar)
+        lotgerade_group.scale(0.5)
+        lotgerade_group.move_to(RIGHT * 4 + DOWN * 2)
+
+        self.play(ReplacementTransform(knowledge_text, lotgerade_group))
+
+        self.wait(2)
+
+        self.play(
+            FadeOut(skalarprodukt_group),
+            FadeOut(lotgerade_group),
+            FadeOut(chest_opened_empty_png),
+            FadeOut(tools_text),
+        )
+
     def construct(self):
         self.fps = 30
 
@@ -505,3 +903,37 @@ class Mitte_drei(ThreeDScene):
         self.play(distance_arrow.animate.set_color(YELLOW))
 
         self.wait(10)
+
+class Schluss(Scene):
+    def construct(self):
+        self.fps = 30
+
+        music_credits = Tex("Musik: Sixes von Vincent Rubinetti", font_size=50).move_to(
+            ORIGIN
+        )
+
+        self.play(
+            Write(music_credits),
+        )
+
+        self.wait(2)
+
+        self.play(
+            music_credits.animate.shift(UP * 2).scale(0.5),
+        )
+
+        code_credits = Tex("Animationen geschrieben in Python", font_size=50).move_to(
+            ORIGIN
+        )
+
+        self.play(
+            Write(code_credits),
+        )
+
+        self.wait(2)
+
+        self.play(
+            code_credits.animate.shift(UP).scale(0.5),
+        )
+
+        self.wait(2)
