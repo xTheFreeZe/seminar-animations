@@ -1,5 +1,6 @@
 from manim import *
 
+
 class Video(ThreeDScene):
     def construct(s):
         s.fps = 60
@@ -184,6 +185,7 @@ class Video(ThreeDScene):
 
         s.wait(2)
 
+
 class Mitte_eins(ThreeDScene):
     def construct(self):
         self.fps = 60
@@ -291,6 +293,7 @@ class Mitte_eins(ThreeDScene):
         )
 
         self.wait(1)
+
 
 class Mitte_zwei(Scene):
     def construct(self):
@@ -790,7 +793,7 @@ class Mitte_zwei(Scene):
         self.wait(5)
 
         point_g = (
-            MathTex( 
+            MathTex(
                 r"P_g = (0,07 \mid -1,72 \mid 0)",
                 color=BLUE,
                 font_size=25,
@@ -903,6 +906,7 @@ class Mitte_zwei(Scene):
         self.play(distance_arrow.animate.set_color(YELLOW))
 
         self.wait(10)
+
 
 class Schluss(Scene):
     def construct(self):
