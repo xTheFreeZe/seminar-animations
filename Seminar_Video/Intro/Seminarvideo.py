@@ -4,7 +4,7 @@ from manim import *
 class Video(ThreeDScene):
     def construct(s):
         s.fps = 60
-        title = Tex("Seminarvideo Marwin", font_size=30)
+        title = Tex("Seminarvideo Marwin Eder", font_size=30)
         topic = Tex("Abstand zweier", " windschiefer", " Geraden", font_size=25)
 
         s.play(Write(title))
@@ -106,7 +106,10 @@ class Video(ThreeDScene):
 
         group_two = VGroup(axes_two, line_one_parallel, line_two_parallel)
         group_two.scale(0.2).move_to(ORIGIN)
-        s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_two]))
+        s.play(
+            LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_two]),
+            FadeOut(framebox_two),
+        )
         group_two_box = SurroundingRectangle(group_two, buff=0.1, color=WHITE)
 
         s.wait(0.5)
@@ -133,6 +136,14 @@ class Video(ThreeDScene):
             color=RED,
         )
 
+        group_one_text = Text(
+            "Nicht windschief, da: Schnittpunt", color=RED, font_size=20, weight=BOLD
+        ).shift(DOWN * 3)
+
+        group_two_text = Text(
+            "Nicht windschief, da: Parallel", color=RED, font_size=20, weight=BOLD
+        ).shift(DOWN * 3)
+
         group_three = VGroup(axes_three, line_one_skew, line_two_skew)
         group_three.scale(0.2).move_to(RIGHT * 4)
         s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_three]))
@@ -141,11 +152,17 @@ class Video(ThreeDScene):
         s.play(FadeOut(group_two, group_three))
         s.play(Create(group_one_box))
         s.play(group_one.animate.move_to(ORIGIN), group_one_box.animate.move_to(ORIGIN))
-        s.play(group_one.animate.scale(1.8), group_one_box.animate.scale(1.8))
+        s.play(
+            group_one.animate.scale(1.8),
+            group_one_box.animate.scale(1.8),
+            Write(group_one_text),
+        )
         s.play(Rotating(group_one, axis=UP, radians=2 * PI, run_time=6.5))
         s.wait(3)
         s.play(
-            group_one.animate.move_to(LEFT * 4), group_one_box.animate.move_to(LEFT * 4)
+            group_one.animate.move_to(LEFT * 4),
+            group_one_box.animate.move_to(LEFT * 4),
+            FadeOut(group_one_text),
         )
         s.play(group_one.animate.scale(0.6), group_one_box.animate.scale(0.6))
         s.play(FadeIn(group_two, group_three))
@@ -154,17 +171,22 @@ class Video(ThreeDScene):
         s.play(
             group_two.animate.scale(1.8),
             group_two_box.animate.scale(1.8),
+            Write(group_two_text),
         )
         s.play(Rotating(group_two, axis=UP, radians=2 * PI, run_time=6.5))
         s.wait(3)
-        s.play(group_two.animate.scale(0.6), group_two_box.animate.scale(0.6))
+        s.play(
+            group_two.animate.scale(0.6),
+            group_two_box.animate.scale(0.6),
+            FadeOut(group_two_text),
+        )
         s.play(FadeIn(group_three, group_one))
         s.play(ReplacementTransform(group_two_box, group_three_box))
         s.play(FadeOut(group_one, group_two))
         s.play(
             group_three.animate.move_to(ORIGIN), group_three_box.animate.move_to(ORIGIN)
         )
-        s.play(group_three.animate.scale(1.8), group_three_box.animate.scale(2))
+        s.play(group_three.animate.scale(1.8), group_three_box.animate.scale(2.3))
         s.play(Rotating(group_three, axis=UP, radians=2 * PI, run_time=6.5))
         s.play(
             group_three.animate.move_to(RIGHT * 4),
@@ -174,8 +196,6 @@ class Video(ThreeDScene):
         s.play(FadeOut(group_three_box))
         s.play(FadeIn(group_one, group_two))
         s.wait(3)
-        s.play(FadeOut(framebox_two))
-        s.wait(2)
 
         # Fade out everything except group_three and put it in the center
         s.play(FadeOut(group_one, group_two))
