@@ -108,7 +108,6 @@ class Video(ThreeDScene):
         group_two.scale(0.2).move_to(ORIGIN)
         s.play(
             LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_two]),
-            FadeOut(framebox_two),
         )
         group_two_box = SurroundingRectangle(group_two, buff=0.1, color=WHITE)
 
@@ -136,18 +135,24 @@ class Video(ThreeDScene):
             color=RED,
         )
 
+        group_three = VGroup(axes_three, line_one_skew, line_two_skew)
+        group_three.scale(0.2).move_to(RIGHT * 4)
+        s.play(
+            LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_three]),
+            FadeOut(framebox_two),
+        )
+        group_three_box = SurroundingRectangle(group_three, buff=0.1, color=WHITE)
+
         group_one_text = Text(
-            "Nicht windschief, da: Schnittpunt", color=RED, font_size=20, weight=BOLD
+            "Nicht windschief, da: Schnittpunkt",
+            color=RED,
+            font_size=20,
+            weight=BOLD,
         ).shift(DOWN * 3)
 
         group_two_text = Text(
             "Nicht windschief, da: Parallel", color=RED, font_size=20, weight=BOLD
         ).shift(DOWN * 3)
-
-        group_three = VGroup(axes_three, line_one_skew, line_two_skew)
-        group_three.scale(0.2).move_to(RIGHT * 4)
-        s.play(LaggedStart(*[FadeIn(mob, shift=UP) for mob in group_three]))
-        group_three_box = SurroundingRectangle(group_three, buff=0.1, color=WHITE)
 
         s.play(FadeOut(group_two, group_three))
         s.play(Create(group_one_box))
@@ -195,7 +200,40 @@ class Video(ThreeDScene):
         s.play(group_three.animate.scale(0.6), group_three_box.animate.scale(0.6))
         s.play(FadeOut(group_three_box))
         s.play(FadeIn(group_one, group_two))
+        s.wait(1)
+
+        group_one_text_small = Tex(
+            'Nicht windschief, da: Schnittpunkt',
+            color=RED,
+            font_size=16,
+        ).shift(DOWN * 2 + LEFT * 4)
+
+        group_two_text_small = Text(
+            'Nicht windschief, da: Parallel', color=RED, font_size=16
+        ).shift(DOWN * 2)
+
+        group_three_text_small = Tex(
+            'Windschief', color=GREEN, font_size=16
+        ).shift(DOWN * 2 + RIGHT * 4)
+
+        s.play(Create(group_one), Create(group_two), Create(group_three))
+        s.play(
+            Rotating(group_one, axis=UP, radians=0.30 * PI, run_time=2),
+            Rotating(group_two, axis=UP, radians=0.25 * PI, run_time=2),
+            Rotating(group_three, axis=UP, radians=0.20 * PI, run_time=2),
+            Write(group_one_text_small),
+            Write(group_two_text_small),
+            Write(group_three_text_small),
+        )
+
         s.wait(3)
+
+        s.play(
+            Rotating(group_one, axis=UP, radians=-0.30 * PI, run_time=2),
+            Rotating(group_two, axis=UP, radians=-0.25 * PI, run_time=2),
+            Rotating(group_three, axis=UP, radians=-0.20 * PI, run_time=2),
+            FadeOut(group_one_text_small, group_two_text_small, group_three_text_small)
+        )
 
         # Fade out everything except group_three and put it in the center
         s.play(FadeOut(group_one, group_two))
@@ -204,3 +242,81 @@ class Video(ThreeDScene):
         s.play(group_three.animate.scale(1.7))
 
         s.wait(2)
+
+
+class Test(ThreeDScene):
+    def construct(self):
+
+        axes_one = ThreeDAxes(
+            x_length=10,
+            y_length=10,
+            z_length=10,
+            x_axis_config={"color": WHITE},
+            y_axis_config={"color": WHITE},
+            z_axis_config={"color": WHITE},
+        )
+
+        line_one_intersect = Line3D(
+            start=[-3, -3, 0],
+            end=[3, 3, 0],
+            color=BLUE,
+        )
+
+        line_two_intersect = Line3D(
+            start=[-3, 3, 0],
+            end=[3, -3, 0],
+            color=RED,
+        )
+
+        group_one = VGroup(axes_one, line_one_intersect, line_two_intersect)
+        group_one.scale(0.2).move_to(LEFT * 4)
+
+        axes_two = ThreeDAxes(
+            x_length=10,
+            y_length=10,
+            z_length=10,
+            x_axis_config={"color": WHITE},
+            y_axis_config={"color": WHITE},
+            z_axis_config={"color": WHITE},
+        )
+
+        line_one_parallel = Line3D(
+            start=[-3, -3, 0],
+            end=[3, 3, 0],
+            color=BLUE,
+        )
+
+        line_two_parallel = Line3D(
+            start=[-3, -3, 1],
+            end=[3, 3, 1],
+            color=RED,
+        )
+
+        group_two = VGroup(axes_two, line_one_parallel, line_two_parallel)
+        group_two.scale(0.2).move_to(ORIGIN)
+
+        axes_three = ThreeDAxes(
+            x_length=10,
+            y_length=10,
+            z_length=10,
+            x_axis_config={"color": WHITE},
+            y_axis_config={"color": WHITE},
+            z_axis_config={"color": WHITE},
+        )
+
+        line_one_skew = Line3D(
+            start=[-5, -2, -3],
+            end=[5, 2, -1],
+            color=BLUE,
+        )
+
+        line_two_skew = Line3D(
+            start=[2, -4, 5],
+            end=[-2, 3, 8],
+            color=RED,
+        )
+
+        group_three = VGroup(axes_three, line_one_skew, line_two_skew)
+        group_three.scale(0.2).move_to(RIGHT * 4)
+
+        self.wait(1)
