@@ -143,16 +143,13 @@ class Video(ThreeDScene):
         )
         group_three_box = SurroundingRectangle(group_three, buff=0.1, color=WHITE)
 
-        group_one_text = Text(
-            "Nicht windschief, da: Schnittpunkt",
-            color=RED,
-            font_size=20,
-            weight=BOLD,
-        ).shift(DOWN * 3)
+        group_one_text = Tex(
+            "Nicht windschief, da: Schnittpunkt", color=RED, font_size=20
+        )
+        group_one_text.shift(DOWN * 3)
 
-        group_two_text = Text(
-            "Nicht windschief, da: Parallel", color=RED, font_size=20, weight=BOLD
-        ).shift(DOWN * 3)
+        group_two_text = Tex("Nicht windschief, da: Parallel", color=RED, font_size=20)
+        group_two_text.shift(DOWN * 3)
 
         s.play(FadeOut(group_two, group_three))
         s.play(Create(group_one_box))
@@ -203,20 +200,20 @@ class Video(ThreeDScene):
         s.wait(1)
 
         group_one_text_small = Tex(
-            'Nicht windschief, da: Schnittpunkt',
+            "Nicht windschief, da: Schnittpunkt",
             color=RED,
             font_size=16,
-        ).shift(DOWN * 2 + LEFT * 4)
+        )
+        group_one_text_small.shift(DOWN * 2 + LEFT * 4)
 
-        group_two_text_small = Text(
-            'Nicht windschief, da: Parallel', color=RED, font_size=16
-        ).shift(DOWN * 2)
+        group_two_text_small = Tex(
+            "Nicht windschief, da: Parallel", color=RED, font_size=16
+        )
+        group_two_text_small.shift(DOWN * 2)
 
-        group_three_text_small = Tex(
-            'Windschief', color=GREEN, font_size=16
-        ).shift(DOWN * 2 + RIGHT * 4)
+        group_three_text_small = Tex("Windschief", color=GREEN, font_size=16)
+        group_three_text_small.shift(DOWN * 2 + RIGHT * 4)
 
-        s.play(Create(group_one), Create(group_two), Create(group_three))
         s.play(
             Rotating(group_one, axis=UP, radians=0.30 * PI, run_time=2),
             Rotating(group_two, axis=UP, radians=0.25 * PI, run_time=2),
@@ -232,7 +229,7 @@ class Video(ThreeDScene):
             Rotating(group_one, axis=UP, radians=-0.30 * PI, run_time=2),
             Rotating(group_two, axis=UP, radians=-0.25 * PI, run_time=2),
             Rotating(group_three, axis=UP, radians=-0.20 * PI, run_time=2),
-            FadeOut(group_one_text_small, group_two_text_small, group_three_text_small)
+            FadeOut(group_one_text_small, group_two_text_small, group_three_text_small),
         )
 
         # Fade out everything except group_three and put it in the center
