@@ -226,6 +226,22 @@ class Mitte_drei(ThreeDScene):
         self.wait(0.5)
         self.play(ReplacementTransform(fourth_connection_vec, fith_connection_vec))
         self.wait(0.5)
+        self.play(ReplacementTransform(fith_connection_vec, third_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(third_connection_vec, second_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(second_connection_vec, third_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(third_connection_vec, fourth_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(fourth_connection_vec, second_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(second_connection_vec, first_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(first_connection_vec, fourth_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(fourth_connection_vec, fith_connection_vec))
+        self.wait(0.5)
         self.play(ReplacementTransform(fith_connection_vec, sixth_connection_vec))
         self.wait(0.5)
         self.play(ReplacementTransform(sixth_connection_vec, second_connection_vec))
@@ -233,8 +249,24 @@ class Mitte_drei(ThreeDScene):
         self.play(ReplacementTransform(second_connection_vec, third_connection_vec))
         self.wait(0.5)
         self.play(ReplacementTransform(third_connection_vec, fourth_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(fourth_connection_vec, second_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(second_connection_vec, third_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(third_connection_vec, fourth_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(fourth_connection_vec, first_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(first_connection_vec, sixth_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(sixth_connection_vec, second_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(second_connection_vec, third_connection_vec))
+        self.wait(0.5)
+        self.play(ReplacementTransform(third_connection_vec, fourth_connection_vec))
         self.play(FadeOut(fourth_connection_vec))
-        self.wait(25)
+        self.wait(15)
 
         half_scalar_product_g = (
             MathTex(
@@ -392,7 +424,7 @@ class Mitte_drei(ThreeDScene):
         self.wait(5)
 
         point_g = (
-            MathTex( 
+            MathTex(
                 r"P_g = (0,07 \mid -1,72 \mid 0)",
                 color=BLUE,
                 font_size=25,
